@@ -52,7 +52,9 @@
         </div>
     </main>
     <footer id="mostrare">
-        
+        <div id="resultado">
+
+        </div>
         
         <div id="favoritos">
 
@@ -74,7 +76,7 @@
         }
         function Busqueda() {
             let select = document.getElementById('Buscar').value
-            document.getElementById('mostrare').innerHTML = '<div id="resultado"></div';
+            
             switch (select) {
                 case "Lanzamientos": Lanzamientos();
                 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log/FindX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="Index.html"><img src="logo.png" alt="Logo"></a>
+    </header>
+    <div id="log">
+        <h3>Eres nuevo? <button onclick="Registro()">Registrate</button> </h3>
+        <h3>Ya tienes una cuenta? <button onclick="Ingreso()">Ingresa</button></h3>
+    </div>
+    <script>
+        'use strict'
+        function Registro() {
+            document.getElementById('log').innerHTML = '<p>Introduce un nombre de Usuario <input id="usuario"></p> <p>Introduce una contraseña<input id="contraseña" type="password"></p><p>Repite la contraseña<input id="verificacion" type="password"></p><button onclick="SubirDatos()">Registrate</button>'
+        }
+        function Ingreso() {
+            document.getElementById('log').innerHTML = '<p>Introduce tu nombre de Usuario <input id="usuarioConfirmacion"></p> <p>Introduce tu contraseña<input id="contraseñaConfirmacion" type="password"></p><button onclick="Log()">Loggeate</button>'
+        }
+
+        function SubirDatos() {
+            let datos = [];
+            let usuario = document.getElementById('usuario').value;
+            let contraseña = document.getElementById('contraseña').value;
+            let verificacion = document.getElementById('verificacion').value;
+            if (contraseña !== verificacion) {
+                window.alert('Las contraseñas no coinciden')
+            } else {
+                datos.push(usuario, contraseña)
+                let data = JSON.stringify(datos)
+                localStorage.setItem('datos', data)
+                document.getElementById('log').innerHTML = '<h3>Eres nuevo? <button onclick="Registro()">Registrate</button></h3><h3>Ya tienes una cuenta ? <button onclick="Ingreso()">Ingresa</button></h3> '
+            }
+        }
+        function Log() {
+            let datos = JSON.parse(localStorage.getItem('datos'))
+            let usuario = document.getElementById('usuarioConfirmacion').value;
+            let contraseña = document.getElementById('contraseñaConfirmacion').value;
+            if(usuario !== datos[0] || contraseña !== datos[1]){
+                window.alert('Los datos introducidos son incorrectos')
+            }else {
+                let confirmacion = true;
+                localStorage.setItem('Validacion',confirmacion)
+                window.alert('Bienvenido ' + usuario)
+                document.getElementById('log').innerHTML = '<h3>Eres nuevo? <button onclick="Registro()">Registrate</button></h3><h3>Ya tienes una cuenta ? <button onclick="Ingreso()">Ingresa</button></h3>'
+                window.location= 'Index.html'
+            }
+        }
+    </script>
+</body>
+<!-- `${Math.floor(Math.random() * 200)}` -->
+</html>

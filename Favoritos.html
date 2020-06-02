@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="Index.html"><img src="logo.png" alt="Logo"></a>
+        <nav id="lista">
+            <ul>
+                <li><a href="AcercaDe.html">Acerca de</a></li>
+                <li><a href="Buscador.html">Buscador</a></li>
+                <li class="in"><a href="Log.html">Registrate/Ingresa</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="busquedasFavoritas">
+        <div id="LanzamientosFavoritos">
+        <h1>Tus Lanzamientos Favoritos</h1>
+
+        </div>
+        <div id="CohetesFavoritos">
+            <h1>Tus Cohetes Favoritos</h1>
+        </div>
+        <div id="CapsulasFavoritas">
+            <h1>Tus Capsúlas Favoritos</h1>
+        </div>
+        <div id="MotoresFavoritos">
+            <h1>Tus Motores Favoritos</h1>
+        </div>
+    </main>
+    <script>
+        'use strict'
+        let datosLanzamientos = JSON.parse(localStorage.getItem('LanzamientosFavoritos'))
+        for (let j = 0; j < datosLanzamientos.length; j++) {
+            document.getElementById('LanzamientosFavoritos').innerHTML += `<div>${datosLanzamientos[j].LanzamientosGuardar}</div>`
+        }
+        let datosCohetes = JSON.parse(localStorage.getItem('CohetesFavoritos'))
+        for (let a = 0; a < datosCohetes.length; a++) {
+            document.getElementById('CohetesFavoritos').innerHTML += `<div id="CohetesPosicionar">${datosCohetes[a].guardarImagenCohete}</div>`
+        }
+        let datosCapsulas = JSON.parse(localStorage.getItem('CapsulasFavoritas'))
+        for (let b = 0; b < datosCapsulas.length; b++) {
+            document.getElementById('CapsulasFavoritas').innerHTML += `<div id="CapsulasPosicionar">${datosCapsulas[b].guardarImagenDragon}</div>`
+        }
+
+        let datosMotores = JSON.parse(localStorage.getItem('MotoresFavoritos'))
+        for (let i = 0; i < datosMotores.length; i++) {
+            document.getElementById('MotoresFavoritos').innerHTML += ` <div>${datosMotores[i].MotoresGuardar}<div>`
+        }
+
+        function Logout(){
+            let adios = JSON.parse(localStorage.getItem('datos'))
+            window.alert('Hasta luego ' + adios[0])
+            localStorage.removeItem('Validacion');
+            document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Log.html">Ingresa/Registrate</a></li></ul>'
+            window.location= 'Index.html'
+        }
+        validacion()
+        function validacion() {
+            let usuario = JSON.parse(localStorage.getItem('datos'))
+            let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+            if (favoritos === true) {
+                document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li class="about"><a href="Favoritos.html">Favoritos</a></li><li><button onclick="Logout()">Salir</button></li></ul>'
+            }
+        }
+    </script>
+</body>
+
+</html>

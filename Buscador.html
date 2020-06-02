@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador/FindX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="Index.html"><img src="logo.png" alt="Logo"></a>
+        <nav id="lista">
+            <ul>
+                <li><a href="AcercaDe.html">Acerca de</a></li>
+                <li class="about"><a href="Buscador.html">Buscador</a></li>
+                <li class="in"><a href="Log.html">Registrate/Ingresa</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="titulo">
+            <h1>Sé parte del cosmos Sé parte del futuro.</h1>
+            <h3>Todo empieza con un pequeño paso, hoy podría ser el tuyo.</h3>
+            <h4>Leyenda de busqueda</h4>
+            <ol>
+                <li>
+                    <p>Para buscar un lanzamiento escribe un número entre el 0 y el 107(Ellos incluidos)</p>
+                </li>
+                <li>
+                    <p>Para buscar un Cohete escribe un número entre el 1 y el 4(Ellos incluidos)</p>
+                </li>
+                <li>
+                    <p>Para buscar una capsúla escribe un número entre el 1 y el 2(Ellos incluidos)</p>
+                </li>
+                <li>
+                    <p>Para buscar un motor escribe un número entre el 1 y el 65 (Ellos incluidos)</p>
+                </li>
+            </ol>
+        </div>
+        <div id="buscador">
+            <input id="seleccionar" type="text" placeholder="Sobre que quieres saber">
+            <select id="Buscar" onchange="texto()">
+                <option>Selecciona una busqueda</option>
+                <option>Lanzamientos</option>
+                <option>Cohetes</option>
+                <option>Capsúlas</option>
+                <option>Motores</option>
+            </select>
+            <button onclick="Busqueda()">Buscar</button>
+        </div>
+    </main>
+    <footer id="mostrare">
+        
+        
+        <div id="favoritos">
+
+        </div>
+    </footer>
+    <script>
+        'use strict'
+        function texto() {
+            let texto = document.getElementById('Buscar').value
+            if (texto === 'Lanzamientos') {
+                document.getElementById('seleccionar').placeholder = 'Busca un Lanzamiento'
+            } else if (texto === 'Cohetes') {
+                document.getElementById('seleccionar').placeholder = 'Busca un Cohete'
+            } else if (texto === 'Capsúlas') {
+                document.getElementById('seleccionar').placeholder = 'Busca una Capsúla'
+            } else if (texto === 'Motores') {
+                document.getElementById('seleccionar').placeholder = 'Busca un Motor'
+            }
+        }
+        function Busqueda() {
+            let select = document.getElementById('Buscar').value
+            document.getElementById('mostrare').innerHTML = '<div id="resultado"></div';
+            switch (select) {
+                case "Lanzamientos": Lanzamientos();
+                
+                    break;
+                case "Cohetes": Cohetes();
+                
+                    break;
+                case "Capsúlas": Capsulas();
+                
+                    break;
+                case "Motores": Motores();
+                
+                    break;
+            }
+        }
+        let nubeLanzamientos = JSON.parse(localStorage.getItem('LanzamientosFavoritos'))
+        if (nubeLanzamientos === null) {
+            nubeLanzamientos = [];
+        }
+        let launches;
+        let mision;
+        let anioLanzamiento;
+        let fechaLanzamiento;
+        let coheteNombre;
+        let coheteModelo;
+        let coheteId;
+        let LanzamientoZona;
+        let EstadoMision;
+        let Video;
+        let Tripulacion;
+        let LanzamientosGuardar
+        function Lanzamientos() {
+            fetch('https://api.spacexdata.com/v3/launches').then(function datos(datos) {
+                return datos.json()
+            }).then(function buscar(datos) {
+                let valora = document.getElementById('seleccionar').value;
+                if (valora > datos.length) {
+                    document.getElementById('resultado').innerHTML = '<p>Has introducido un dato incorrecto, intentalo de nuevo</p>'
+                } else {
+                    validacion()
+                    function validacion() {
+                        let usuario = JSON.parse(localStorage.getItem('datos'))
+                        let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+                        if (favoritos === true) {
+                            document.getElementById('favoritos').innerHTML = '<button onclick="favoritosLanzamientos()">Añadir a Favoritos</button>'
+                        }
+                    }
+                    let valor = datos[valora - 1];
+                    launches = valor.flight_number;
+                    mision = valor.mission_name;
+                    anioLanzamiento = valor.launch_year;
+                    fechaLanzamiento = valor.launch_date_local;
+                    coheteNombre = valor.rocket.rocket_name;
+                    coheteModelo = valor.rocket.rocket_type;
+                    coheteId = valor.rocket.rocket_id;
+                    LanzamientoZona = valor.launch_site.site_name_long;
+                    EstadoMision = valor.launch_success;
+                    Video = valor.links.video_link;
+                    Tripulacion = valor.crew
+                    LanzamientosGuardar = document.getElementById('resultado').innerHTML = `<p>Lanzamiento Nº ${launches}</p><p>Nombre de la misión: ${mision}</p><p> Año del lanzamiento: ${anioLanzamiento}</p><p>Fecha del lanzamiento: ${fechaLanzamiento}</p><p>Nombre del cohete: ${coheteNombre}</p><p>Modelo del cohete: ${coheteModelo}</p><p>Id del cohete: ${coheteId}</p><p>Sitio del Lanzamiento: ${LanzamientoZona}</p><p>Mision exitosa: ${EstadoMision}</p><p>Video del Lanzamiento: <a href="${Video}">Video</a></p><p>Tripulacion: ${Tripulacion}</p>`
+                }
+            })
+        }
+        let nubeCohete = JSON.parse(localStorage.getItem('CohetesFavoritos'))
+        if (nubeCohete === null) {
+            nubeCohete = [];
+        }
+        let rockets;
+        let Estado;
+        let Propulsores;
+        let Vuelo;
+        let Pais;
+        let compania;
+        let alturaM;
+        let Diametro;
+        let peso;
+        let motoresCohete;
+        let VersionMotorCohete;
+        let wikipedia;
+        let Descripcion;
+        let CoheteVersion;
+        let CohetesGuardar;
+        let imagenCohete= ['<img src="falcon1.jpg" alt="Falcon1">','<img src="falcon9.jpg" alt="Falcon9">','<img src="falconheavy.jpg" alt="FalconHeavy">','<img src="starship.jpg" alt="Starship">']
+        let guardarImagenCohete;
+        function Cohetes() {
+            fetch('https://api.spacexdata.com/v3/rockets').then(function datos(datos) {
+                return datos.json()
+            }).then(function buscar(datos) {
+                let valora = document.getElementById('seleccionar').value;
+                if (valora > datos.length) {
+                    document.getElementById('resultado').innerHTML = '<p>Has introducido un dato incorrecto, intentalo de nuevo</p>'
+                } else {
+                    validacion()
+                    function validacion() {
+                        let usuario = JSON.parse(localStorage.getItem('datos'))
+                        let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+                        if (favoritos === true) {
+                            document.getElementById('favoritos').innerHTML = '<button onclick="favoritosCohetes()">Añadir a Favoritos</button>'
+                        }
+                    }
+                    let valor = datos[valora - 1];
+                    rockets = valor.rocket_name;
+                    Estado = valor.active;
+                    Propulsores = valor.boosters;
+                    Vuelo = valor.first_flight;
+                    Pais = valor.country;
+                    compania = valor.company;
+                    alturaM = valor.height.meters;
+                    Diametro = valor.diameter.meters;
+                    peso = valor.mass.kg;
+                    motoresCohete = valor.engines.type;
+                    VersionMotorCohete = valor.engines.version;
+                    wikipedia = valor.wikipedia;
+                    Descripcion = valor.description;
+                    CoheteVersion = valor.rocket_id;
+                    CohetesGuardar = document.getElementById('resultado').innerHTML = `<p>Nombre del cohete: ${rockets}</p><p>Cohete activo: ${Estado}</p><p>Propulsores: ${Propulsores}</p><p>Primer vuelo: ${Vuelo}</p><p>País: ${Pais}</p><p>Compañia: ${compania}</p><p>Altura del cohete: ${alturaM} Metros</p><p>Diametro del cohete: ${Diametro} Metros</p><p>Peso del cohete: ${peso}kg</p><p>Motores: ${motoresCohete}</p><p>Version del motor: ${VersionMotorCohete}</p><p>Wikepedia: <a href="${wikipedia}">Wikipedia</a></p><p>Descripcion: ${Descripcion}</p><p>Id del cohete: ${CoheteVersion}</p>`
+                    if(rockets === 'Falcon 1'){
+                        guardarImagenCohete=   document.getElementById('resultado').innerHTML += `${imagenCohete[0]}`
+                    } else if (rockets === 'Falcon 9') {
+                        guardarImagenCohete  = document.getElementById('resultado').innerHTML += `${imagenCohete[1]}`;
+                    } else if (rockets === 'Falcon Heavy') {
+                        guardarImagenCohete=  document.getElementById('resultado').innerHTML += `${imagenCohete[2]}`;
+                    } else if (rockets === 'Starship') {
+                        guardarImagenCohete= document.getElementById('resultado').innerHTML += `${imagenCohete[3]}`;
+                    }
+                }
+            })
+        }
+        let nubeCapsula = JSON.parse(localStorage.getItem('CapsulasFavoritas'))
+        if (nubeCapsula === null) {
+            nubeCapsula = [];
+        }
+        let dragons;
+        let tipoDragon;
+        let EstadoDragon;
+        let TripulacionDragon;
+        let Orbita;
+        let VueloDragon;
+        let Escudo;
+        let EscudoDmg;
+        let PropulsoresDragon;
+        let CombustiblePropulsor1;
+        let CombustiblePropulsor2;
+        let CapsulaPresurizada;
+        let Tanque;
+        let pesoConTanque;
+        let DiametroDragon;
+        let wikipediaDragon;
+        let descripcionDragon;
+        let DragonGuardar;
+        let imagenDragon= ['<img src="dragon1.jpg" alt="Dragon1">','<img src="dragon2.jpg" alt="Dragon2">']
+        let guardarImagenDragon;
+        function Capsulas() {
+            fetch('https://api.spacexdata.com/v3/dragons').then(function datos(datos) {
+                return datos.json()
+            }).then(function buscar(datos) {
+                let valora = document.getElementById('seleccionar').value;
+                if (valora > datos.length) {
+                    document.getElementById('resultado').innerHTML = '<p>Has introducido un dato incorrecto, intentalo de nuevo</p>'
+                } else {
+                    validacion()
+                    function validacion() {
+                        let usuario = JSON.parse(localStorage.getItem('datos'))
+                        let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+                        if (favoritos === true) {
+                            document.getElementById('favoritos').innerHTML = '<button onclick="favoritosCapsulas()">Añadir a Favoritos</button>'
+                        }
+                    }
+                    let valor = datos[valora - 1];
+                    dragons = valor.name;
+                    tipoDragon = valor.type;
+                    EstadoDragon = valor.active;
+                    TripulacionDragon = valor.crew_capacity;
+                    Orbita = valor.orbit_duration_yr;
+                    VueloDragon = valor.first_flight;
+                    Escudo = valor.heat_shield.material;
+                    EscudoDmg = valor.heat_shield.temp_degrees;
+                    PropulsoresDragon = valor.thrusters[0].amount;
+                    CombustiblePropulsor1 = valor.thrusters[0].fuel_1;
+                    CombustiblePropulsor2 = valor.thrusters[0].fuel_2;
+                    CapsulaPresurizada = valor.pressurized_capsule.payload_volume.cubic_meters;
+                    Tanque = valor.trunk.trunk_volume.cubic_meters;
+                    pesoConTanque = valor.height_w_trunk.meters;
+                    DiametroDragon = valor.diameter.meters;
+                    wikipediaDragon = valor.wikipedia;
+                    descripcionDragon = valor.description;
+
+                    DragonGuardar = document.getElementById('resultado').innerHTML = `<p>Nombre de la capsúla: ${dragons}</p><p>Tipo de capsula: ${tipoDragon}</p><p>Estado activo de la capsúla: ${EstadoDragon}</p><p>Capsúla tripulable: ${TripulacionDragon}</p><p>duración en orbita de la capsúla: ${Orbita}</p><p>Primer vuelo: ${VueloDragon}</p><p>Material de los escudos: ${Escudo}</p><p>Grados que soporta el escudo ${EscudoDmg} Cº</p><p>Cantidad de propulsores: ${PropulsoresDragon}</p><p>Primer ombustible del propulsor: ${CombustiblePropulsor1}</p><p>Segundo combustible del propulsor: ${CombustiblePropulsor2}</p><p>Capacidad del tanque: ${Tanque} metros cubicos</p><p>Peso de la capsúla con el tanque: ${pesoConTanque}</p><p>Diametro de la capsúla: ${DiametroDragon}</p><p>Wikipedia: <a href="${wikipediaDragon}">Wikipedia</a></p><p>Descripción de la capsúla: ${descripcionDragon}</p>`
+                    if(dragons === 'Dragon 1'){
+                        guardarImagenDragon = document.getElementById('resultado').innerHTML += `${imagenDragon[0]}`
+                    }else if(dragons === 'Dragon 2'){
+                        guardarImagenDragon = document.getElementById('resultado').innerHTML += `${imagenDragon[1]}`
+                    }
+                }
+            })
+        }
+        let nubeMotor = JSON.parse(localStorage.getItem('MotoresFavoritos'))
+        if (nubeMotor === null) {
+            nubeMotor = [];
+        }
+
+        let core;
+        let coreStatus;
+        let coreLanzamiento;
+        let misionesCore;
+        let reusadoCore;
+        let vueltasCore;
+        let vueltasCore2;
+        let atempCore;
+        let atempCore2;
+        let AterrizajeAgua;
+        let detallescore;
+        let MotoresGuardar;
+        function Motores() {
+            fetch('https://api.spacexdata.com/v3/cores').then(function datos(datos) {
+                return datos.json()
+            }).then(function buscar(datos) {
+                let valora = document.getElementById('seleccionar').value;
+                if (valora > datos.length) {
+                    document.getElementById('resultado').innerHTML = '<p>Has introducido un dato incorrecto, intentalo de nuevo</p>'
+                } else {
+                    validacion()
+                    function validacion() {
+                        let usuario = JSON.parse(localStorage.getItem('datos'))
+                        let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+                        if (favoritos === true) {
+                            document.getElementById('favoritos').innerHTML = '<button onclick="favoritosMotores()">Añadir a Favoritos</button>'
+                        }
+                    }
+                    let valor = datos[valora - 1];
+                    core = valor.core_serial
+                    coreStatus = valor.status;
+                    coreLanzamiento = valor.original_launch;
+                    misionesCore = valor.missions;
+                    reusadoCore = valor.reuse_count;
+                    vueltasCore = valor.rtls_attempts;
+                    vueltasCore2 = valor.rtls_landings;
+                    atempCore = valor.asds_attempts;
+                    atempCore2 = valor.asds_landings;
+                    AterrizajeAgua = valor.water_landing;
+                    detallescore = valor.details;
+                    document.getElementById('resultado').innerHTML = `<p>Modelo del motor: ${core}</p><p>Estado del motor: ${coreStatus}</p><p>Lanzamiento original: ${coreLanzamiento}</p><p>Veces reusado: ${reusadoCore}</p><p>Intentos de vuelta a la plataforma de lanzamiento: ${vueltasCore}</p><p>Vueltas a la plataforma: ${vueltasCore2}</p><p>Intentos por aterrizar en la plataforma autónoma de puerto aeroespacial ${atempCore}</p><p>Aterrizajes en la plataforma autónoma de puerto aeroespacial ${atempCore2}</p><p>Aterrizaje en agua: ${AterrizajeAgua}</p><p>detalles: ${detallescore}</p>`
+                    for (let i = 0; i < misionesCore.length; i++) {
+                        MotoresGuardar = document.getElementById('resultado').innerHTML += `<p>Mision: ${misionesCore[i].name},${misionesCore[i].flight}</p>`
+                    }
+
+                }
+            })
+        }
+        function favoritosLanzamientos() {
+            nubeLanzamientos.push({ LanzamientosGuardar })
+            let nube = JSON.stringify(nubeLanzamientos)
+            localStorage.setItem('LanzamientosFavoritos', nube)
+        }
+        function favoritosCohetes() {
+            nubeCohete.push({ guardarImagenCohete })
+            let nube = JSON.stringify(nubeCohete)
+            localStorage.setItem('CohetesFavoritos', nube)
+        }
+        function favoritosCapsulas() {
+            nubeCapsula.push({ guardarImagenDragon })
+            let nube = JSON.stringify(nubeCapsula)
+            localStorage.setItem('CapsulasFavoritas', nube)
+
+        }
+        function favoritosMotores() {
+            nubeMotor.push({ MotoresGuardar })
+            let nube = JSON.stringify(nubeMotor)
+            localStorage.setItem('MotoresFavoritos', nube)
+        }
+        function Logout() {
+            let adios = JSON.parse(localStorage.getItem('datos'))
+            window.alert('Hasta luego ' + adios[0])
+            localStorage.removeItem('Validacion');
+            document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Log.html">Ingresa/Registrate</a></li></ul>'
+        }
+        validacion()
+        function validacion() {
+            let usuario = JSON.parse(localStorage.getItem('datos'))
+            let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+            if (favoritos === true) {
+                document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li class="about"><a href="Buscador.html">Buscador</a></li><li><a href="Favoritos.html">Favoritos</a></li><li><button onclick="Logout()">Salir</button></li></ul>'
+            }
+        }
+    </script>
+</body>
+
+</html>

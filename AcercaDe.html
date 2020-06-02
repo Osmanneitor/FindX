@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca/FindX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="Index.html"><img src="logo.png" alt="Logo"></a>
+        <nav id="lista">
+            <ul>
+                <li class="about"><a href="AcercaDe.html">Acerca de</a></li>
+                <li><a href="Buscador.html">Buscador</a></li>
+                <li class="in"><a href="Log.html">Registrate/Ingresa</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="AcercaDe">
+        <div id="text">
+            <div id="filosofia">
+                <h1>Filosofia</h1>
+                <p>Nos hemos preguntado a traves de nuestra historia tan repetitiva y tediosa: Esto es todo? Esto es lo
+                    que nos depara?.Nosotros hemos decidido que no;es hora de dejar nuestra vanalidades y todo lo que
+                    nos ata a seguir siendo unos animales con capacidades cognitivas límitadas; ha llegado la hora de
+                    liberarnos del ciclo sin fin y ser parte del cosmos.</p>
+            </div>
+            <div id="objetivos">
+                <h1>Objetivos</h1>
+                <ul>
+                    <li>Incentivar la imaginación</li>
+                    <li>Motivar las mentes más jovenes</li>
+                    <li>Abrazar la lógica</li>
+                </ul>
+            </div>
+        </div>
+        <div id="fotos">
+            <div>
+                <h1>Nuestros genios</h1>
+            </div>
+            <div id="fotosGenios">
+                <div id="elon">
+                    <img src="elon.jpg" alt="ElonMusk">
+                    <h5>Elon Musk</h5>
+                </div>
+                <div>
+                    <img src="osman.jpg" alt="webdesigner">
+                    <h5>Osman Cadavid</h5>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer id="acerca">
+        <div id="ac">
+            <h1>¿Que esperas? Unete <img src="624838.svg" alt="PointingFinger"></h1>
+            <a href="Log.html">Ingresa/Registrate</a>
+        </div>
+    </footer>
+    <script>
+        'use strict'
+        function Logout() {
+            let adios = JSON.parse(localStorage.getItem('datos'))
+            window.alert('Hasta luego ' + adios[0])
+            localStorage.removeItem('Validacion');
+            document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Log.html">Ingresa/Registrate</a></li></ul>'
+        }
+        validacion()
+        function validacion() {
+            let usuario = JSON.parse(localStorage.getItem('datos'))
+            let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+            if (favoritos === true) {
+                document.getElementById('lista').innerHTML = '<ul><li class="about"><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Favoritos.html">Favoritos</a></li></li><li><button onclick="Logout()">Salir</button></li></ul>'
+            }
+        }
+    </script>
+</body>
+
+</html>

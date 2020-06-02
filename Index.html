@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="Index.html"><img src="logo.png" alt="Logo"></a>
+        <nav id="lista">
+            <ul>
+                <li><a href="AcercaDe.html">Acerca de</a></li>
+                <li><a href="Buscador.html">Buscador</a></li>
+                <li class="in"><a href="Log.html">Registrate/Ingresa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="interes">
+            <h1>Interes</h1>
+            <div id="roadster">
+                <img src="roadster.jpg" alt="Roadster">
+                <img src="roadster2.jpg" alt="RoadsterFueraDeOrbita">
+                <p>El Tesla Roadster de Elon Musk es un automóvil privado que fue adaptado como carga de prueba para
+                    el
+                    vuelo inaugural del cohete Falcon Heavy. El vehículo es un Tesla Roadster de primera generación
+                    producido en 2009 por Tesla, un fabricante de automóviles eléctricos estadounidense co-fundado
+                    por
+                    el propio Musk.</p>
+            </div>
+            <div id="cohetes">
+                <img src="https://www.spacex.com/static/images/content/fh_performance.webp" alt="FalconHeavy">
+                <img src="falcon9.jpg" alt="Falcon9">
+                <p>
+                    Los cohetes de SpaceX han ganado reconocimiento en los últimos años por su increible potencial,
+                    siendo capaces de romper los límites del entendimiento humano, volviendo lo imposible, posible.
+                </p>
+            </div>
+            <div id="starlink">
+                <img src="starlink.jpg" alt="Starlink">
+                <img src="satelites-starlink.jpeg" alt="TierraSatelites">
+                <p>
+                    Starlink es un proyecto de la empresa SpaceX para la creación de una constelación de satélites
+                    de
+                    internet​ con el objetivo de brindar un servicio de internet de banda ancha, baja latencia y
+                    cobertura mundial a bajo costo.
+                </p>
+            </div>
+        </section>
+        <section id="informacion">
+            <h1>¿Que es SpaceX?</h1>
+            <p> Es una empresa estadounidense de transporte aeroespacial fundada en 2002 por Elon Musk</p>
+            <p>Ha desarrollado los cohetes Falcon 1, Falcon 9 y Falcon Heavy los cuales han sido construidos con la
+                meta de ser vehículos de lanzamiento espacial reutilizables. SpaceX también ha desarrollado la nave
+                espacial Dragon que fue puesta en órbita por los vehículos de lanzamiento Falcon 9, también se
+                encuentran desarrollando el BFR o Star Ship una nave la cual planea usar para enviar colonias de
+                humanos en futuras misiones a Marte. SpaceX diseña, prueba y fabrica la mayor parte de los
+                componentes por cuenta propia, incluyendo los motores de cohete Merlín, Kestrel y Draco.</p>
+            <p>
+                SpaceX también se encuentra desarrollando Starlink, una constelación de satélites, mediante los
+                cuales proveerá internet de banda ancha y baja latencia, con cobertura mundial.
+            </p>
+        </section>
+        <section id="noticias">
+            <h2>Ultimas noticias</h2>
+            <div id="noticiaB">
+                <h3>Lanzado con éxito el cohete espacial SpaceX por la NASA</h3>
+                <p>La cápsula Crew Dragon, fabricada por la agencia SpaceX de Elon Musk, fue lanzada con éxito al
+                    espacio por la NASA en el segundo intento de una misión que el miércoles se tuvo que aplazar por el
+                    mal tiempo.</p>
+                    <a
+                        href="https://www.marca.com/tiramillas/actualidad/2020/05/30/5ed26641e2704e54ad8b45cb.html">Leer
+                        más</a>
+                <img src="astronautas2.jpg" alt="AstronautasEnCabina">
+            </div>
+            <div id="noticiaA">
+                <h3>Cancelado el lanzamiento de la nave de SpaceX por mal tiempo</h3>
+                <p>Finalmente el clima ha impedido que la nave Crew Dragon diseñada por SpaceX despegue hoy... </p>
+                    <a
+                        href="https://www.lavanguardia.com/ciencia/20200527/481423960047/cancelado-lanzamiento-spacex-nave-nasa-hoy-crew-dragon.html">Leer
+                        más</a>
+                <img src="astronautas.jpg" alt="Astronautas">
+            </div>
+
+        </section>
+
+    </main>
+    <footer>
+        
+        <h6>Preguntas Frecuentes/</h6>
+        <h6>Contactanos/</h6>
+        <h6>Derechos reservados @FindX2020</h6>
+    </footer>
+    <script>
+        'use strict'
+        function Logout() {
+            let adios = JSON.parse(localStorage.getItem('datos'))
+            window.alert('Hasta luego ' + adios[0])
+            localStorage.removeItem('Validacion');
+            document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Log.html">Ingresa/Registrate</a></li></ul>'
+        }
+        validacion()
+        function validacion() {
+            let usuario = JSON.parse(localStorage.getItem('datos'))
+            let favoritos = JSON.parse(localStorage.getItem('Validacion'))
+            if (favoritos === true) {
+                document.getElementById('lista').innerHTML = '<ul><li><a href="AcercaDe.html">Acerca de</a></li><li><a href="Buscador.html">Buscador</a></li><li><a href="Favoritos.html">Favoritos</a></li><li id="u"><p>Bienvenido ' + usuario[0] + '</p></li><li><button onclick="Logout()">Salir</button></li></ul>'
+            }
+        }
+    </script>
+</body>
+
+</html>
